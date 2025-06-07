@@ -4,6 +4,8 @@ import TableSearch from "@/components/TableSearch";
 import { announcementsData, role} from "@/lib/data";
 import Image from "next/image";
 import Link from "next/link";
+import FormModal from "@/components/FormModal";
+
 
 type Announcement = {
     id: number;
@@ -35,16 +37,12 @@ const AnnouncementListPage = () => {
             </td>
             <td>
                 <div className="flex items-center gap-2">
-                <Link href={`/list/teachers/${item.id}`}>
-                    <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky">
-                    <Image src="/edit.png" alt="" width={16} height={16} />
-                    </button>
-                </Link>
-                {role === "admin" && (
-                    <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple">
-                    <Image src="/delete.png" alt="" width={16} height={16} />
-                    </button>
-                )}
+            {role === "admin" && (
+                <>
+                <FormModal table="announcement" type="update" data={item} />
+                <FormModal table="announcement" type="delete" id={item.id} />
+                </>
+            )}
                 </div>
             </td>
         </tr>
@@ -66,9 +64,7 @@ const AnnouncementListPage = () => {
                 <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
             {role === "admin" && (
-                <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
-                <Image src="/plus.png" alt="" width={14} height={14} />
-                </button>
+                <FormModal table="announcement" type="create" />
             )}
             </div>
         </div>
